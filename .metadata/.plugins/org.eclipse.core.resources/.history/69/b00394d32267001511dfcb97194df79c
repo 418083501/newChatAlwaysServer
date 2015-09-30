@@ -1,0 +1,9 @@
+package lulu.lulu;
+
+import javax.servlet.http.HttpServletResponse;
+
+public class DefualtPrintOut {
+
+	
+	
+}

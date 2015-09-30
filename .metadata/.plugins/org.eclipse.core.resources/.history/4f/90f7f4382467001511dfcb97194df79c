@@ -1,0 +1,13 @@
+package lulu.model;
+
+public class BaseUser {
+	private long id;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+}

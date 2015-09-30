@@ -1,0 +1,16 @@
+package lulu.model;
+
+public class BaseUser {
+	private long ID;
+	private String name;
+	private String sex;
+	private String facePath;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+}

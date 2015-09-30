@@ -1,0 +1,7 @@
+package lulu.model;
+
+public class LoginUser extends BaseUser {
+	
+	private String token;
+	
+}

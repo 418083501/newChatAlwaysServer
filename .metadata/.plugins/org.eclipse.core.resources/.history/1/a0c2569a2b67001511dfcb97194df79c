@@ -16,6 +16,9 @@ public class DefualtPrintOut {
 	}
 	
 	public static void defaultPrint(String string,HttpServletResponse response) throws IOException{
+		
+		
+		
 		response.getWriter().print(string);
 	}
 	

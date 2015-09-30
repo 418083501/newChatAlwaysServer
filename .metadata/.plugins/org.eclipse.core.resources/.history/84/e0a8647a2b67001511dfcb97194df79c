@@ -11,12 +11,13 @@ public class DefualtPrintOut {
 		
 		if(type == 1){
 //			response.getWriter().print("{code:\"0\",result:\"参数错误\"}");
-			defaultPrint("{code:\"0\",result:\"参数错误\"}",response);
+			
 		}
 	}
 	
 	public static void defaultPrint(String string,HttpServletResponse response) throws IOException{
-		response.getWriter().print(string);
+		
+		
 	}
 	
 }

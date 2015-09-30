@@ -32,9 +32,9 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		String username = (String)request.getAttribute("username");
-		String vcode = (String)request.getAttribute("vcode");
+		String password = (String)request.getAttribute("vcode");
 		
-		if(username == null || vcode == null)
+		if(username == null || password == null)
 		{
 			DefualtPrintOut.printError(1, response);
 		}

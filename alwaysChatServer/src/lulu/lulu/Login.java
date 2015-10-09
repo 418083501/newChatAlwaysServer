@@ -1,8 +1,13 @@
 package lulu.lulu;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+//import java.util.HashMap;
+//import java.util.Map;
+
+import java.sql.*;
+//import java.util.Random;
+
+import lulu.sql.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,6 +41,8 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+//		response.setContentType(null);
+		
 		String username = (String)request.getParameter("username");
 		String vcode = (String)request.getParameter("vcode");
 		
@@ -48,16 +55,41 @@ public class Login extends HttpServlet {
 			LoginUser user = new LoginUser();
 			
 			JSONObject result = new JSONObject();
-			
-//			JSONObject userJson = new JSONObject();
-			
 			result.put("code",1);
 			result.put("result","");
-			result.put("user", user);
+			
+			
+			Connection connection = DB.getConn();
+			Statement statement = DB.getStmt(connection);
+			ResultSet rs = DB.executeQuery(statement, "select * from user where username=" + username);
+			try {
+				if(rs.next()){
+					user.setUsername(rs.getString("username"));
+					user.setID(rs.getLong("id"));
+					user.setName(rs.getString("name"));
+					user.setSex(rs.getString("sex"));
+					user.setFacePath(rs.getString("facePath"));
+					user.setLocation(rs.getString("location"));
+					user.setDestrib(rs.getString("destrib"));
+					user.setToken(rs.getString("token"));
+					
+					result.put("user", user);
+					
+				}else{
+					result.put("code", 0);
+					result.put("result","用户不存在");
+				}
+				
+				DefualtPrintOut.defaultPrint(result.toString(), response);
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 //			userJson.put("ID",user.getID());
 			
-			DefualtPrintOut.defaultPrint(result.toString(), response);
+//			DefualtPrintOut.defaultPrint(result.toString(), response);
 			
 		}
 		

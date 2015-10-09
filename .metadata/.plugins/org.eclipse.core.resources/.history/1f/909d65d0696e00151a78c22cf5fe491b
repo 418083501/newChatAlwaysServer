@@ -1,0 +1,11 @@
+package lulu.lulu;
+
+public class UserDB {
+	
+	public static Object getLoginUser(long ID,String token){
+		
+		
+		
+	}
+	
+}

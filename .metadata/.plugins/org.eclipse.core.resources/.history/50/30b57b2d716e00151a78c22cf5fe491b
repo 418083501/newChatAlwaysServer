@@ -1,0 +1,12 @@
+package lulu.lulu;
+
+import javax.servlet.http.HttpServlet;
+
+public class GetUserInfo extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+}

@@ -1,0 +1,13 @@
+package lulu.lulu;
+
+import lulu.sql.*;
+
+public class UserDB {
+	
+	public static Object getLoginUser(long ID,String token){
+		
+		return null;
+		
+	}
+	
+}

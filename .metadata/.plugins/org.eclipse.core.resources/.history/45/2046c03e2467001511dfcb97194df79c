@@ -1,9 +1,0 @@
-package lulu.model;
-
-public class BaseUser {
-	private long ID;
-	private String name;
-	private String sex;
-	private String facePath;
-
-}

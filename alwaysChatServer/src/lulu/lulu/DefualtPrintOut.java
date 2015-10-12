@@ -11,12 +11,12 @@ public class DefualtPrintOut {
 		
 		if(type == 1){
 //			response.getWriter().print("{code:\"0\",result:\"参数错误\"}");
-			defaultPrint("{code:\"0\",result:\"参数错误\"}",response);
+			defaultPrint("{\"code\":\"0\",\"result\":\"参数错误\"}",response);
 		}else if(type == 2){
-			defaultPrint("{code:\"0\",result:\"为查找到用户\"}",response);
+			defaultPrint("{\"code\":\"0\",\"result\":\"为查找到用户\"}",response);
 			
 		}else if(type == 3){
-			defaultPrint("{code:\"0\",result:\"token failure\"}",response);
+			defaultPrint("{\"code\":\"0\",\"result\":\"token failure\"}",response);
 			
 		}
 	}

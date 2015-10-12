@@ -1,0 +1,66 @@
+package lulu.lulu;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import lulu.model.*;
+
+/**
+ * Servlet implementation class GetBasicUser
+ */
+@WebServlet("/GetBasicUser")
+public class GetBasicUser extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public GetBasicUser() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		String uid = request.getParameter("uid");
+		String token = request.getParameter("token");
+		String ids = request.getParameter("ids");
+		
+		LoginUser user = (LoginUser) UserDB.getLoginUser(Long.parseLong(uid), token);
+		
+		if(token.equals(token)){
+			
+			String idArray[] = ids.split(",");
+			if(idArray.length > 0){
+				
+				
+				
+			}else{
+				
+				DefualtPrintOut.printError(1, response);
+			}
+			
+		}else{
+			DefualtPrintOut.printError(3, response);
+		}
+		
+		
+	}
+
+}

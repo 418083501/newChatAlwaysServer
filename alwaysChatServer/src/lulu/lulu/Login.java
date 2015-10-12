@@ -71,7 +71,12 @@ public class Login extends HttpServlet {
 					user.setFacePath(rs.getString("facePath"));
 					user.setLocation(rs.getString("location"));
 					user.setDestrib(rs.getString("destrib"));
-					user.setToken(rs.getString("token"));
+					
+					String token = "fhjdkkdjshfkdsj";
+					user.setToken(token);
+					String updateSql = "update user set token='" + token + "' where id=" + user.getID();
+					
+					statement.executeUpdate(updateSql);
 					
 					result.put("user", user);
 					
@@ -86,6 +91,10 @@ public class Login extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			DB.close(rs);
+			DB.close(statement);
+			DB.close(connection);
 			
 //			userJson.put("ID",user.getID());
 			

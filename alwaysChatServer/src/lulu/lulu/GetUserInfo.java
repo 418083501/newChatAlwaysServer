@@ -33,8 +33,8 @@ public class GetUserInfo extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		String ID = request.getParameter("ID");
-		String token = request.getParameter("token");
+		String ID = (String) DefualtPrintOut.defaultGetStr("ID",request);//request.getParameter("ID");
+		String token = (String) DefualtPrintOut.defaultGetStr("token",request);//request.getParameter("token");
 		
 		if(ID == null){
 			

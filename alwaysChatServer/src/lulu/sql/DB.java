@@ -43,6 +43,24 @@ public class DB {
 		}
 		return rs;
 	}
+	
+	public static PreparedStatement getPStmt(Connection conn,String sql,Object paramas[]){
+		PreparedStatement statement = null;
+		try {
+			statement = conn.prepareStatement(sql);
+			
+			for(int i = 0;i<paramas.length;i++){
+				statement.setObject(i+1, paramas[i]);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+		
+		return statement;
+	}
+	
 	public static void close(Connection conn){
 		if(conn != null){
 			try {

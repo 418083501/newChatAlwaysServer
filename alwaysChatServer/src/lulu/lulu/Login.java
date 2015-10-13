@@ -5,7 +5,6 @@ import java.io.IOException;
 //import java.util.Map;
 
 import java.sql.*;
-//import java.util.Random;
 
 import lulu.sql.*;
 
@@ -43,8 +42,8 @@ public class Login extends HttpServlet {
 		
 //		response.setContentType(null);
 		
-		String username = (String)request.getParameter("username");
-		String vcode = (String)request.getParameter("vcode");
+		String username = (String) DefualtPrintOut.defaultGetStr("username",request);//(String)request.getParameter("username");
+		String vcode = (String) DefualtPrintOut.defaultGetStr("vcode",request);//(String)request.getParameter("vcode");
 		
 //		DefualtPrintOut.defaultPrint(username + "," + vcode, response);
 		
@@ -60,8 +59,15 @@ public class Login extends HttpServlet {
 			
 			
 			Connection connection = DB.getConn();
-			Statement statement = DB.getStmt(connection);
-			ResultSet rs = DB.executeQuery(statement, "select * from user where username=" + username);
+			String sql = "select * from user where username=?";
+			PreparedStatement statement = DB.getPStmt(connection, sql, new Object[]{username});
+			ResultSet rs = null;
+			try {
+				rs = statement.executeQuery();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			try {
 				if(rs.next()){
 					user.setUsername(rs.getString("username"));

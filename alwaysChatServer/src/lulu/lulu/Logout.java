@@ -1,0 +1,74 @@
+package lulu.lulu;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
+import lulu.model.*;
+import lulu.sql.*;
+
+/**
+ * Servlet implementation class Logout
+ */
+@WebServlet("/Logout")
+public class Logout extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public Logout() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		String uid = (String)DefualtPrintOut.defaultGetStr("uid", request);
+		String token = (String)DefualtPrintOut.defaultGetStr("token", request);
+		
+		LoginUser user = (LoginUser)UserDB.getLoginUser(Long.parseLong(uid), token);
+		if(user.getToken().equals(token)){
+			Connection conn = DB.getConn();
+			String sql = "update user set token=? where id=?";
+			PreparedStatement stmt = DB.getPStmt(conn, sql, new Object[]{"",user.getID()});
+			try {
+				boolean result = stmt.execute();
+				if(result){
+					JSONObject json = new JSONObject();
+					json.put("code", "1");
+					json.put("result", "OK");
+					DefualtPrintOut.defaultPrint(json.toString(), response);
+				}else{
+					DefualtPrintOut.printError(4, response);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			DefualtPrintOut.printError(3, response);
+		}
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+}

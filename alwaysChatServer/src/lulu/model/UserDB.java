@@ -11,8 +11,14 @@ public class UserDB {
 		LoginUser user = new LoginUser();
 		
 		Connection connection = DB.getConn();
-		Statement statement = DB.getStmt(connection);
-		ResultSet rs = DB.executeQuery(statement, "select * from user where id=" + ID);
+		PreparedStatement statement = DB.getPStmt(connection, "select * from user where id=?", new Object[]{ID});
+		ResultSet rs = null;
+		try {
+			rs = statement.executeQuery();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			if(rs.next()){
 				user.setUsername(rs.getString("username"));

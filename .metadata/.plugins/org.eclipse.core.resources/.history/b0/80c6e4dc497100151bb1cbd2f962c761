@@ -1,0 +1,125 @@
+package lulu.lulu;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.LinkedList;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
+import lulu.model.*;
+import lulu.sql.DB;
+
+/**
+ * Servlet implementation class GetBasicUser
+ */
+@WebServlet("/GetBasicUser")
+public class GetBasicUser extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public GetBasicUser() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		String uid = request.getParameter("uid");
+		String token = request.getParameter("token");
+		String ids = request.getParameter("ids");
+		
+		LoginUser user = (LoginUser) UserDB.getLoginUser(Long.parseLong(uid), token);
+		
+		if(ids == null || uid == null || token == null){
+			
+			DefualtPrintOut.printError(1, response);
+			return;
+			
+		}
+		
+		if(token.equals(user.getToken())){
+			
+			String idArray[] = ids.split(",");
+			if(idArray.length > 0){
+				
+				Connection connection = DB.getConn();
+				Statement statement = DB.getStmt(connection);
+				String sql = "select id,name,sex,facePath,location,destrib from user where id in(";
+				
+				for(int i = 0;i<idArray.length;i++){
+					
+					sql += idArray[i];
+					if(idArray.length != i + 1){
+						sql += ",";
+					}
+					
+				}
+				
+				LinkedList<BaseUser> list = new LinkedList<BaseUser>();
+				
+				ResultSet rs = DB.executeQuery(statement, sql);
+				try {
+					while(rs.next()){
+						
+						BaseUser baseUser = new BaseUser();
+						baseUser.setID(rs.getLong("id"));
+						baseUser.setName(rs.getString("name"));
+						baseUser.setSex(rs.getString("sex"));
+						baseUser.setFacePath(rs.getString("facePath"));
+						baseUser.setLocation(rs.getString("location"));
+						baseUser.setDestrib(rs.getString("destrib"));
+						
+						list.add(baseUser);
+						baseUser = null;
+						
+					}
+					
+					JSONObject result = new JSONObject();
+					result.put("code",1);
+					result.put("result","");
+					
+					result.put("data", list);
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				DB.close(rs);
+				DB.close(statement);
+				DB.close(connection);
+				
+			}else{
+				
+				DefualtPrintOut.printError(1, response);
+			}
+			
+		}else{
+			DefualtPrintOut.printError(3, response);
+		}
+		
+		
+	}
+
+}

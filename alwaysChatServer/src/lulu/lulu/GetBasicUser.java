@@ -45,11 +45,14 @@ public class GetBasicUser extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		String uid = request.getParameter("uid");
-		String token = request.getParameter("token");
-		String ids = request.getParameter("ids");
+		String uid = (String) DefualtPrintOut.defaultGetStr("uid",request);//defaultGetStr
+		String token = (String) DefualtPrintOut.defaultGetStr("token",request);
+		String ids = (String) DefualtPrintOut.defaultGetStr("ids",request);//request.getParameter("ids");
 		
 		LoginUser user = (LoginUser) UserDB.getLoginUser(Long.parseLong(uid), token);
+		
+		
+		System.out.println("uid="+uid+",token="+token+",ids="+ids);
 		
 		if(ids == null || uid == null || token == null){
 			
@@ -58,9 +61,12 @@ public class GetBasicUser extends HttpServlet {
 			
 		}
 		
+		uid = null;
+		
 		if(token.equals(user.getToken())){
 			
 			String idArray[] = ids.split(",");
+			ids = null;
 			if(idArray.length > 0){
 				
 				Connection connection = DB.getConn();
@@ -69,6 +75,14 @@ public class GetBasicUser extends HttpServlet {
 				
 				for(int i = 0;i<idArray.length;i++){
 					
+					try{
+						if(Long.parseLong(idArray[i]) == 0){
+							continue;
+						}
+					}catch(Exception e){
+						continue;
+					}
+					
 					sql += idArray[i];
 					if(idArray.length != i + 1){
 						sql += ",";
@@ -76,9 +90,21 @@ public class GetBasicUser extends HttpServlet {
 					
 				}
 				
+				sql += ")";
+				
+				System.out.println("sql=" + sql);
+				idArray = null;
+				
 				LinkedList<BaseUser> list = new LinkedList<BaseUser>();
 				
 				ResultSet rs = DB.executeQuery(statement, sql);
+				if(rs == null){
+					
+					DefualtPrintOut.printError(4, response);
+					
+					return;
+					
+				}
 				try {
 					while(rs.next()){
 						
@@ -91,6 +117,7 @@ public class GetBasicUser extends HttpServlet {
 						baseUser.setDestrib(rs.getString("destrib"));
 						
 						list.add(baseUser);
+						baseUser = null;
 						
 					}
 					
@@ -100,14 +127,21 @@ public class GetBasicUser extends HttpServlet {
 					
 					result.put("data", list);
 					
+					DefualtPrintOut.defaultPrint(result.toString(), response);
+					
+					list = null;
+					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
 				DB.close(rs);
+				rs = null;
 				DB.close(statement);
+				statement = null;
 				DB.close(connection);
+				connection = null;
 				
 			}else{
 				
@@ -118,7 +152,8 @@ public class GetBasicUser extends HttpServlet {
 			DefualtPrintOut.printError(3, response);
 		}
 		
-		
+		token = null;
+		user = null;
 	}
 
 }

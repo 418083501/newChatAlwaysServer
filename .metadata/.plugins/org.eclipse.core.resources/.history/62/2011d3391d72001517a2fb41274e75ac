@@ -63,13 +63,6 @@ public class GetBasicUser extends HttpServlet {
 		
 		uid = null;
 		
-		if(ids.replace("admin", "").equals("")){
-			
-			DefualtPrintOut.printError(1, response);
-			
-			return;
-		}
-		
 		if(token.equals(user.getToken())){
 			
 			String idArray[] = ids.split(",");

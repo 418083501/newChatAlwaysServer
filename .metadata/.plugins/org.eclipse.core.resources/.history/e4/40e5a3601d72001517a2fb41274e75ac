@@ -65,7 +65,7 @@ public class GetBasicUser extends HttpServlet {
 		
 		if(ids.replace("admin", "").equals("")){
 			
-			DefualtPrintOut.printError(1, response);
+			
 			
 			return;
 		}

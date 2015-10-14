@@ -49,6 +49,8 @@ public class GetBasicUser extends HttpServlet {
 		String token = (String) DefualtPrintOut.defaultGetStr("token",request);
 		String ids = (String) DefualtPrintOut.defaultGetStr("ids",request);//request.getParameter("ids");
 		
+		
+		
 		LoginUser user = (LoginUser) UserDB.getLoginUser(Long.parseLong(uid), token);
 		
 		
@@ -62,13 +64,6 @@ public class GetBasicUser extends HttpServlet {
 		}
 		
 		uid = null;
-		
-		if(ids.replace("admin", "").equals("")){
-			
-			DefualtPrintOut.printError(1, response);
-			
-			return;
-		}
 		
 		if(token.equals(user.getToken())){
 			

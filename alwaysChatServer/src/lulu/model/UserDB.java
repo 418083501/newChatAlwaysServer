@@ -39,6 +39,16 @@ public class UserDB {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
+			
+		}finally
+		{
+			DB.close(rs);
+			rs = null;
+			DB.close(statement);
+			statement = null;
+			DB.close(connection);
+			connection = null;
 		}
 		
 		

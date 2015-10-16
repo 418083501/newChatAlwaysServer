@@ -57,6 +57,11 @@ public class Logout extends HttpServlet {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				DB.close(stmt);
+				stmt = null;
+				DB.close(stmt);
+				stmt = null;
 			}
 		}else{
 			DefualtPrintOut.printError(3, response);

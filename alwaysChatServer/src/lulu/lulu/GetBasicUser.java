@@ -73,6 +73,20 @@ public class GetBasicUser extends HttpServlet {
 		if(token.equals(user.getToken())){
 			
 			String idArray[] = ids.split(",");
+			LinkedList<String> idList = new LinkedList<String>();
+			for(int i = 0;i<idArray.length;i++){
+				try{
+					if(Long.parseLong(idArray[i]) == 0){
+						continue;
+					}
+				}catch(Exception e){
+					continue;
+				}
+				idList.add(idArray[i]);
+			}
+			
+			idArray = (String[]) idList.toArray(new String[0]);
+			idList = null;
 			ids = null;
 			if(idArray.length > 0){
 				
@@ -141,14 +155,15 @@ public class GetBasicUser extends HttpServlet {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}finally
+				{
+					DB.close(rs);
+					rs = null;
+					DB.close(statement);
+					statement = null;
+					DB.close(connection);
+					connection = null;
 				}
-				
-				DB.close(rs);
-				rs = null;
-				DB.close(statement);
-				statement = null;
-				DB.close(connection);
-				connection = null;
 				
 			}else{
 				

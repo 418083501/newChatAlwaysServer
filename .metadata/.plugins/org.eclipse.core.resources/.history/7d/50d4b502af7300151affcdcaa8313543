@@ -1,0 +1,6 @@
+package lulu.model;
+
+public class GroupInfo {
+	private String id;
+	
+}

@@ -67,6 +67,12 @@ public class Login extends HttpServlet {
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				DB.close(rs);
+				rs = null;
+				DB.close(statement);
+				statement = null;
+				DB.close(connection);
+				connection = null;
 			}
 			try {
 				if(rs.next()){
@@ -96,11 +102,17 @@ public class Login extends HttpServlet {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				
+			}finally
+			{
+				DB.close(rs);
+				rs = null;
+				DB.close(statement);
+				statement = null;
+				DB.close(connection);
+				connection = null;
+				
 			}
-			
-			DB.close(rs);
-			DB.close(statement);
-			DB.close(connection);
 			
 //			userJson.put("ID",user.getID());
 			
